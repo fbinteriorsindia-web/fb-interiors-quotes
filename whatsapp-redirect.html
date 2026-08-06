@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redirecting…</title>
+
+<!-- ============================================================ -->
+<!-- STEP 1: Replace AW-XXXXXXXXX with your Google Ads Conversion ID -->
+<!-- ============================================================ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-XXXXXXXXX');
+</script>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+  }
+  .loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e0e0e0;
+    border-top: 4px solid #25D366;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="loader"></div>
+
+<script>
+  // ============================================================
+  // STEP 2: Replace these three values
+  // ============================================================
+  var CONVERSION_ID_AND_LABEL = 'AW-XXXXXXXXX/XXXXXXXXXXX'; // from Google Ads > Conversions
+  var WHATSAPP_NUMBER = '919626989998';                      // country code + number, no + or spaces
+  var PREFILLED_MESSAGE = "Hi, I need a quote for interior design services";
+
+  var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(PREFILLED_MESSAGE);
+
+  function goToWhatsApp() {
+    // .replace() swaps the tab instead of opening a new one,
+    // and doesn't leave this redirect page in browser history.
+    window.location.replace(whatsappUrl);
+  }
+
+  // Fire the Google Ads conversion, then redirect once it's sent.
+  // The 800ms fallback guarantees the redirect fires even if the
+  // conversion ping is slow or blocked (e.g. an ad blocker).
+  var redirected = false;
+  function safeRedirect() {
+    if (!redirected) {
+      redirected = true;
+      goToWhatsApp();
+    }
+  }
+
+  gtag('event', 'conversion', {
+    'send_to': CONVERSION_ID_AND_LABEL,
+    'event_callback': safeRedirect
+  });
+
+  setTimeout(safeRedirect, 800);
+</script>
+
+</body>
+</html>
